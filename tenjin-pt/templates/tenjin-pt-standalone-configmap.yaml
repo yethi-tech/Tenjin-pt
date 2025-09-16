@@ -1,0 +1,50 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: {{ .Release.Name }}-tenjin-pt-standalone-config
+  labels:
+    app: tenjin-pt-standalone
+data:
+  SPRING_DATASOURCE_DRIVER_CLASS_NAME: "org.postgresql.Driver"
+  SPRING_DATASOURCE_URL: "jdbc:postgresql://{{ .Release.Name }}-postgres:5432/{{ .Values.tpt-standalone.env.POSTGRES_DB }}"
+  SPRING_DATASOURCE_USERNAME: "{{ .Values.tpt-standalone.env.POSTGRES_USER }}"
+  SPRING_DATASOURCE_PASSWORD: "{{ .Values.tpt-standalone.env.POSTGRES_PASSWORD }}"
+  SPRING_JPA_HIBERNATE_DDL_AUTO: "{{ .Values.tpt-standalone.env.SPRING_JPA_HIBERNATE_DDL_AUTO }}"
+  SPRING_JPA_SHOW_SQL: "{{ .Values.tpt-standalone.env.SPRING_JPA_SHOW_SQL }}"
+
+  UPLOAD_DIR: "{{ .Values.tpt-standalone.env.UPLOAD_DIR }}"
+  TENJIN_BASE_URL: "{{ .Values.tpt-standalone.env.TENJIN_BASE_URL }}"
+  TENJIN_DEFAULT_USER_PASSWORD: "{{ .Values.tpt-standalone.env.TENJIN_DEFAULT_USER_PASSWORD }}"
+  TENJIN_JWT_SECRET: "{{ .Values.tpt-standalone.env.TENJIN_JWT_SECRET }}"
+  TENJIN_JWT_TOKEN_VALIDITY: "{{ .Values.tpt-standalone.env.TENJIN_JWT_TOKEN_VALIDITY }}"
+
+  TENJIN_INFLUXDBURL: "{{ .Values.tpt-standalone.env.TENJIN_INFLUXDBURL }}"
+  TENJIN_INFLUXDBTOKEN: "{{ .Values.tpt-standalone.env.TENJIN_INFLUXDBTOKEN }}"
+  TENJIN_INFLUXDBORG: "{{ .Values.tpt-standalone.env.TENJIN_INFLUXDBORG }}"
+  TENJIN_INFLUXDBBUCKET: "{{ .Values.tpt-standalone.env.TENJIN_INFLUXDBBUCKET }}"
+
+  PT_SERVICE_URL: "{{ .Values.tenjin-pt-service.env.PT_SERVICE_URL }}"
+
+  FEIGN_CLIENT_CONFIG_DEFAULT_CONNECT_TIMEOUT: "{{ .Values.tpt-standalone.env.FEIGN_CLIENT_CONFIG_DEFAULT_CONNECT_TIMEOUT }}"
+  FEIGN_CLIENT_CONFIG_DEFAULT_READ_TIMEOUT: "{{ .Values.tpt-standalone.env.FEIGN_CLIENT_CONFIG_DEFAULT_READ_TIMEOUT }}"
+
+  SPRING_SERVLET_MULTIPART_ENABLED: "{{ .Values.tpt-standalone.env.SPRING_SERVLET_MULTIPART_ENABLED }}"
+  SPRING_SERVLET_MULTIPART_MAX_FILE_SIZE: "{{ .Values.tpt-standalone.env.SPRING_SERVLET_MULTIPART_MAX_FILE_SIZE }}"
+  SPRING_SERVLET_MULTIPART_MAX_REQUEST_SIZE: "{{ .Values.tpt-standalone.env.SPRING_SERVLET_MULTIPART_MAX_REQUEST_SIZE }}"
+
+  SPRING_MAIL_HOST: "{{ .Values.tpt-standalone.env.SPRING_MAIL_HOST }}"
+  SPRING_MAIL_PORT: "{{ .Values.tpt-standalone.env.SPRING_MAIL_PORT }}"
+  SPRING_MAIL_USERNAME: "{{ .Values.tpt-standalone.env.SPRING_MAIL_USERNAME }}"
+  SPRING_MAIL_PASSWORD: "{{ .Values.tpt-standalone.env.SPRING_MAIL_PASSWORD }}"
+  SPRING_MAIL_PROPERTIES_MAIL_SMTP_AUTH: "{{ .Values.tpt-standalone.env.SPRING_MAIL_PROPERTIES_MAIL_SMTP_AUTH }}"
+  SPRING_MAIL_PROPERTIES_MAIL_SMTP_STARTTLS_ENABLE: "{{ .Values.tpt-standalone.env.SPRING_MAIL_PROPERTIES_MAIL_SMTP_STARTTLS_ENABLE }}"
+  SPRING_MAIL_PROPERTIES_MAIL_SMTP_STARTTLS_REQUIRED: "{{ .Values.tpt-standalone.env.SPRING_MAIL_PROPERTIES_MAIL_SMTP_STARTTLS_REQUIRED }}"
+
+  LOGIN_URL: "{{ .Values.tpt-standalone.env.LOGIN_URL }}"
+  RESET_PASSWORD_URL: "{{ .Values.tpt-standalone.env.RESET_PASSWORD_URL }}"
+
+  SPRINGDOC_API_DOCS_PATH: "{{ .Values.tpt-standalone.env.SPRINGDOC_API_DOCS_PATH }}"
+  SPRINGDOC_SWAGGER_UI_PATH: "{{ .Values.tpt-standalone.env.SPRINGDOC_SWAGGER_UI_PATH }}"
+  SPRINGDOC_SWAGGER_UI_ENABLED: "{{ .Values.tpt-standalone.env.SPRINGDOC_SWAGGER_UI_ENABLED }}"
+
+  TZ: "{{ .Values.tpt-standalone.env.TZ }}"

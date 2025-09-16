@@ -1,0 +1,123 @@
+tenjin-pt-service:
+  image: yethitech/tenjin-pt-service:1.0.0
+  service:
+    type: ClusterIP          # Can override to LoadBalancer or NodePort
+    port: 8080  
+  persistence:
+    size: 20Gi
+    storageClassName: standard
+
+  env:
+    POSTGRES_DB: tenjin_pt_db
+    POSTGRES_USER: tenjin_user
+    POSTGRES_PASSWORD: securePassword123
+
+    TENJIN_REMOTEHOST: remote-host
+    TENJIN_REMOTEPORT: "22"
+    TENJIN_REMOTEUSERNAME: remote-user
+    TENJIN_REMOTEPASSWORD: remote-pass
+    TENJIN_REMOTEMASTERREMOTEPATH: /jmeter/jmeter-csv/
+
+    TENJIN_SOURCEHOST: source-host
+    TENJIN_SOURCEPORT: "22"
+    TENJIN_SOURCEUSERNAME: source-user
+    TENJIN_SOURCEPASSWORD: source-pass
+    TENJIN_SOURCEREPORTSPATH: /root/tenjin_pt/uploads/backup_reports/
+    TENJIN_SOURCEREPORTSPATHJTL: /root/tenjin-pt/jtl-storage/
+    TENJIN_SOURCEBACKUPREPORTSPATH: /root/tenjin-pt/backend/tenjin_pt/uploads/backup_reports/
+    TENJIN_SOURCEHTMLREPORTPATH: /root/tenjin_pt/uploads/backup_reports/
+    TENJIN_SOURCECHROMEDRIVERPATH: /root/pt-chrome/chromedriver-linux64/chromedriver
+    TENJIN_SOURCECHROMEBINARYPATH: /root/pt-chrome/chrome-linux64/chrome
+
+    TENJIN_MASTERHOST: master-host
+    TENJIN_MASTERPORT: "22"
+    TENJIN_MASTERUSERNAME: master-user
+    TENJIN_MASTERPASSWORD: master-pass
+    TENJIN_MASTERFILEPATH: /root/tenjin-pt/backend/tenjin_pt/uploads/
+    TENJIN_MASTERSPLITCSVPATH: /root/tenjin-pt/backend/tenjin_pt/uploads/splitcsv
+    TENJIN_SOURCEDIR: /root/tenjin-pt/backend/tenjin_pt/uploads/
+
+    TENJIN_CRONJOBNAME: cronjob1
+    TENJIN_NEWJOBNAME: newjob1
+
+    LITMUS_SERVICE_URL: http://litmus-service:9091
+    LITMUS_SERVICE_TOKEN: my-litmus-token
+
+    TENJIN_UPLOADDIR: /root/tenjin_pt/uploads/
+    TENJIN_MAXCSVFILESIZE: "10485760"
+    TENJIN_MAXJMXFILESIZE: "10485760"
+
+    PT_SERVICE_URL: http://{{ .Release.Name }}-tenjin-pt-service:8080
+
+    CSV_FILE_PATH_TESTCSV: /app/jtl-storage/10202/results.jtl
+    CSV_FILE_PATH_SCENARIODETAILS: /app/jtl-storage/Scenario_Details.csv
+    CSV_FILE_PATH_EXECUTIONSUMMARY: /app/jtl-storage/Execution_Summary.csv
+    CSV_FILE_PATH_APPLICATIONDETAILS: /app/jtl-storage/Application_Details.csv
+
+    TZ: Asia/Kolkata
+
+
+tpt-standalone:
+  image: yethitech/tenjin-pt-standalone:1.0.0
+  service:
+    type: ClusterIP   # default, can override to LoadBalancer or NodePort
+    port: 80  
+
+  env:
+    POSTGRES_DB: tenjin_pt_db
+    POSTGRES_USER: tenjin_user
+    POSTGRES_PASSWORD: securePassword123
+
+    SPRING_JPA_HIBERNATE_DDL_AUTO: update
+    SPRING_JPA_SHOW_SQL: false
+
+    UPLOAD_DIR: /uploads
+    TENJIN_BASE_URL: http://localhost:8080
+    TENJIN_DEFAULT_USER_PASSWORD: password123
+    TENJIN_JWT_SECRET: supersecret
+    TENJIN_JWT_TOKEN_VALIDITY: "86400"
+
+    TENJIN_INFLUXDBURL: http://influxdb:8086
+    TENJIN_INFLUXDBTOKEN: my-influx-token
+    TENJIN_INFLUXDBORG: my-org
+    TENJIN_INFLUXDBBUCKET: my-bucket
+
+    FEIGN_CLIENT_CONFIG_DEFAULT_CONNECT_TIMEOUT: "5000"
+    FEIGN_CLIENT_CONFIG_DEFAULT_READ_TIMEOUT: "5000"
+
+    SPRING_SERVLET_MULTIPART_ENABLED: "true"
+    SPRING_SERVLET_MULTIPART_MAX_FILE_SIZE: 20MB
+    SPRING_SERVLET_MULTIPART_MAX_REQUEST_SIZE: 50MB
+
+    SPRING_MAIL_HOST: smtp.office365.com
+    SPRING_MAIL_PORT: "587"
+    SPRING_MAIL_USERNAME: yourmail@domain.com
+    SPRING_MAIL_PASSWORD: mailpassword
+    SPRING_MAIL_PROPERTIES_MAIL_SMTP_AUTH: "true"
+    SPRING_MAIL_PROPERTIES_MAIL_SMTP_STARTTLS_ENABLE: "true"
+    SPRING_MAIL_PROPERTIES_MAIL_SMTP_STARTTLS_REQUIRED: "true"
+
+    LOGIN_URL: http://localhost:8080/login
+    RESET_PASSWORD_URL: http://localhost:8080/reset-password
+
+    SPRINGDOC_API_DOCS_PATH: /api-docs
+    SPRINGDOC_SWAGGER_UI_PATH: /swagger-ui.html
+    SPRINGDOC_SWAGGER_UI_ENABLED: "true"
+
+    TZ: Asia/Kolkata
+
+environment:
+  POSTGRES_DB: tenjin_pt_db
+  POSTGRES_USER: tenjin_user
+  POSTGRES_PASSWORD: securePassword123
+
+postgres:
+  persistence:
+    accessModes: ReadWriteOnce
+    storageClassName: standard
+    size: 30Gi
+    
+  jtlPersistence:
+    size: 5Gi
+    storageClassName: standard
+    accessModes: ReadWriteOnce

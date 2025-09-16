@@ -1,0 +1,58 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ .Release.Name }}-tenjin-pt-service
+  labels:
+    name: {{ .Release.Name }}-tenjin-pt-service
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: tenjin-pt-service
+  template:
+    metadata:
+      labels:
+        app: tenjin-pt-service
+    spec:
+      containers:
+        - name: tenjin-pt-service
+          image: "{{ .Values.tenjin-pt-service.image | default "yethitech/tenjin-pt-service:1.0.0" }}"
+          ports:
+            - containerPort: 8080
+          envFrom:
+            - configMapRef:
+                name: {{ .Release.Name }}-tenjin-pt-service
+          volumeMounts:
+            - name: tenjin-pt-service
+              mountPath: /root
+      volumes:
+        - name: tenjin-pt-service
+          persistentVolumeClaim:
+            claimName: tenjin-pt-service
+      initContainers:
+        - name: wait-for-postgres
+          image: busybox
+          command:
+            - "/bin/sh"
+            - "-c"
+            - >
+              until nc -zv {{ .Release.Name }}-postgres 5432; do
+                echo "Waiting for postgres to be available..."
+                sleep 5
+              done
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: tenjin-pt-service
+  labels:
+    app: tenjin-pt-service
+  annotations:
+    "helm.sh/resource-policy": "keep"
+spec:
+  accessModes:
+    - ReadWriteOnce
+  resources:
+    requests:
+      storage: {{ .Values.tenjin-pt-service.persistence.size | default "20Gi" }}
+  storageClassName: {{ .Values.tenjin-pt-service.persistence.storageClassName | default "standard" }}

@@ -1,0 +1,60 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: {{ .Release.Name }}-tenjin-pt-service-config
+  labels:
+    app: tenjin-pt-service
+data:
+  SPRING_DATASOURCE_DRIVER_CLASS_NAME: "org.postgresql.Driver"
+  SPRING_DATASOURCE_URL: "jdbc:postgresql://{{ .Release.Name }}-postgres:5432/{{ .Values.tenjin-pt-service.env.POSTGRES_DB }}"
+  SPRING_DATASOURCE_USERNAME: "{{ .Values.tenjin-pt-service.env.POSTGRES_USER }}"
+  SPRING_DATASOURCE_PASSWORD: "{{ .Values.tenjin-pt-service.env.POSTGRES_PASSWORD }}"
+
+  UPLOAD_DIR: "{{ .Values.tpt-standalone.env.UPLOAD_DIR }}"
+  TENJIN_UPLOADDIR: "{{ .Values.tenjin-pt-service.env.TENJIN_UPLOADDIR }}"
+  TENJIN_MAXCSVFILESIZE: "{{ .Values.tenjin-pt-service.env.TENJIN_MAXCSVFILESIZE }}"
+  TENJIN_MAXJMXFILESIZE: "{{ .Values.tenjin-pt-service.env.TENJIN_MAXJMXFILESIZE }}"
+
+  TENJIN_INFLUXDBURL: "{{ .Values.tpt-standalone.env.TENJIN_INFLUXDBURL }}"
+  TENJIN_INFLUXDBTOKEN: "{{ .Values.tpt-standalone.env.TENJIN_INFLUXDBTOKEN }}"
+  TENJIN_INFLUXDBORG: "{{ .Values.tpt-standalone.env.TENJIN_INFLUXDBORG }}"
+  TENJIN_INFLUXDBBUCKET: "{{ .Values.tpt-standalone.env.TENJIN_INFLUXDBBUCKET }}"
+
+  TENJIN_REMOTEHOST: "{{ .Values.tenjin-pt-service.env.TENJIN_REMOTEHOST }}"
+  TENJIN_REMOTEPORT: "{{ .Values.tenjin-pt-service.env.TENJIN_REMOTEPORT }}"
+  TENJIN_REMOTEUSERNAME: "{{ .Values.tenjin-pt-service.env.TENJIN_REMOTEUSERNAME }}"
+  TENJIN_REMOTEPASSWORD: "{{ .Values.tenjin-pt-service.env.TENJIN_REMOTEPASSWORD }}"
+  TENJIN_REMOTEMASTERREMOTEPATH: "{{ .Values.tenjin-pt-service.env.TENJIN_REMOTEMASTERREMOTEPATH }}"
+
+  TENJIN_SOURCEHOST: "{{ .Values.tenjin-pt-service.env.TENJIN_SOURCEHOST }}"
+  TENJIN_SOURCEPORT: "{{ .Values.tenjin-pt-service.env.TENJIN_SOURCEPORT }}"
+  TENJIN_SOURCEUSERNAME: "{{ .Values.tenjin-pt-service.env.TENJIN_SOURCEUSERNAME }}"
+  TENJIN_SOURCEPASSWORD: "{{ .Values.tenjin-pt-service.env.TENJIN_SOURCEPASSWORD }}"
+  TENJIN_SOURCEREPORTSPATH: "{{ .Values.tenjin-pt-service.env.TENJIN_SOURCEREPORTSPATH }}"
+  TENJIN_SOURCEREPORTSPATHJTL: "{{ .Values.tenjin-pt-service.env.TENJIN_SOURCEREPORTSPATHJTL }}"
+  TENJIN_SOURCEBACKUPREPORTSPATH: "{{ .Values.tenjin-pt-service.env.TENJIN_SOURCEBACKUPREPORTSPATH }}"
+  TENJIN_SOURCEHTMLREPORTPATH: "{{ .Values.tenjin-pt-service.env.TENJIN_SOURCEHTMLREPORTPATH }}"
+  TENJIN_SOURCECHROMEDRIVERPATH: "{{ .Values.tenjin-pt-service.env.TENJIN_SOURCECHROMEDRIVERPATH }}"
+  TENJIN_SOURCECHROMEBINARYPATH: "{{ .Values.tenjin-pt-service.env.TENJIN_SOURCECHROMEBINARYPATH }}"
+
+  TENJIN_MASTERHOST: "{{ .Values.tenjin-pt-service.env.TENJIN_MASTERHOST }}"
+  TENJIN_MASTERPORT: "{{ .Values.tenjin-pt-service.env.TENJIN_MASTERPORT }}"
+  TENJIN_MASTERUSERNAME: "{{ .Values.tenjin-pt-service.env.TENJIN_MASTERUSERNAME }}"
+  TENJIN_MASTERPASSWORD: "{{ .Values.tenjin-pt-service.env.TENJIN_MASTERPASSWORD }}"
+  TENJIN_MASTERFILEPATH: "{{ .Values.tenjin-pt-service.env.TENJIN_MASTERFILEPATH }}"
+  TENJIN_MASTERSPLITCSVPATH: "{{ .Values.tenjin-pt-service.env.TENJIN_MASTERSPLITCSVPATH }}"
+  TENJIN_SOURCEDIR: "{{ .Values.tenjin-pt-service.env.TENJIN_SOURCEDIR }}"
+
+  TENJIN_CRONJOBNAME: "{{ .Values.tenjin-pt-service.env.TENJIN_CRONJOBNAME }}"
+  TENJIN_NEWJOBNAME: "{{ .Values.tenjin-pt-service.env.TENJIN_NEWJOBNAME }}"
+
+  LITMUS_SERVICE_URL: "{{ .Values.tenjin-pt-service.env.LITMUS_SERVICE_URL }}"
+  LITMUS_SERVICE_TOKEN: "{{ .Values.tenjin-pt-service.env.LITMUS_SERVICE_TOKEN }}"
+
+  TENJIN_PODPATH: "/csv"
+  CSV_FILE_PATH_TESTCSV: "{{ .Values.tenjin-pt-service.env.CSV_FILE_PATH_TESTCSV }}"
+  CSV_FILE_PATH_SCENARIODETAILS: "{{ .Values.tenjin-pt-service.env.CSV_FILE_PATH_SCENARIODETAILS }}"
+  CSV_FILE_PATH_EXECUTIONSUMMARY: "{{ .Values.tenjin-pt-service.env.CSV_FILE_PATH_EXECUTIONSUMMARY }}"
+  CSV_FILE_PATH_APPLICATIONDETAILS: "{{ .Values.tenjin-pt-service.env.CSV_FILE_PATH_APPLICATIONDETAILS }}"
+
+  TZ: "{{ .Values.tenjin-pt-service.env.TZ }}"

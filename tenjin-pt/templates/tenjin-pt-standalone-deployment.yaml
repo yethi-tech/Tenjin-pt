@@ -1,0 +1,41 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ .Release.Name }}-tenjin-pt-standalone
+  labels:
+    name: {{ .Release.Name }}-tenjin-pt-standalone
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: tenjin-pt-standalone
+  template:
+    metadata:
+      labels:
+        app: tenjin-pt-standalone
+    spec:
+      containers:
+        - name: tenjin-pt-standalone
+          image: "{{ .Values.tpt-standalone.image | default "yethitech/tenjin-pt-standalone:1.0.0" }}"
+          ports:
+            - containerPort: 8080
+          envFrom:
+            - configMapRef:
+                name: {{ .Release.Name }}-tenjin-pt-standalone
+          volumeMounts:
+            - name: tenjin-pt-standalone
+              mountPath: /root
+      volumes:
+        - name: tenjin-pt-standalone
+          emptyDir: {}   # Ephemeral storage, no PV/PVC required
+      initContainers:
+        - name: wait-for-postgres
+          image: busybox
+          command:
+            - "/bin/sh"
+            - "-c"
+            - >
+              until nc -zv {{ .Release.Name }}-postgres 5432; do
+                echo "Waiting for postgres to be available..."
+                sleep 5
+              done

@@ -1,0 +1,57 @@
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name: {{ .Release.Name }}-postgres
+  labels:
+    name: {{ .Release.Name }}-postgres
+spec:
+  serviceName: "postgres"
+  replicas: 1
+  selector:
+    matchLabels:
+      app: postgres
+  template:
+    metadata:
+      labels:
+        app: postgres
+    spec:
+      containers:
+      - name: tenjin-db
+        image: postgres:13
+        ports:
+        - containerPort: 5432
+        envFrom:
+        - configMapRef:
+            name: {{ .Release.Name }}-postgres-config
+        volumeMounts:
+        - name: postgres-data
+          mountPath: /var/lib/postgresql/data
+        - name: jtl-storage
+          mountPath: /app/jtl-storage
+  volumeClaimTemplates:
+  - metadata:
+      name: postgres-data
+      labels:
+        app: postgres
+      annotations:
+        "helm.sh/resource-policy": keep
+    spec:
+      accessModes:
+        - {{ .Values.postgres.persistence.accessModes | default "ReadWriteOnce" }}
+      storageClassName: {{ .Values.postgres.persistence.storageClassName | default "standard" }}
+      resources:
+        requests:
+          storage: {{ .Values.postgres.persistence.size | default "30Gi" }}
+  - metadata:
+      name: jtl-storage
+      labels:
+        app: postgres
+      annotations:
+        "helm.sh/resource-policy": keep
+    spec:
+      accessModes:
+        - {{ .Values.postgres.jtlPersistence.accessModes | default "ReadWriteOnce" }}
+      storageClassName: {{ .Values.postgres.jtlPersistence.storageClassName | default "standard" }}
+      resources:
+        requests:
+          storage: {{ .Values.postgres.jtlPersistence.size | default "5Gi" }}
