@@ -3,55 +3,64 @@ kind: StatefulSet
 metadata:
   name: {{ .Release.Name }}-postgres
   labels:
-    name: {{ .Release.Name }}-postgres
+    app: {{ .Release.Name }}-postgres
+
 spec:
-  serviceName: "postgres"
+  serviceName: postgres
   replicas: 1
+
   selector:
     matchLabels:
-      app: postgres
+      app: {{ .Release.Name }}-postgres
+
   template:
     metadata:
       labels:
-        app: postgres
+        app: {{ .Release.Name }}-postgres
+
     spec:
       containers:
-      - name: tenjin-db
-        image: postgres:13
-        ports:
-        - containerPort: 5432
-        envFrom:
-        - configMapRef:
-            name: {{ .Release.Name }}-postgres-config
-        volumeMounts:
-        - name: postgres-data
-          mountPath: /var/lib/postgresql/data
-        - name: jtl-storage
-          mountPath: /app/jtl-storage
+        - name: postgres
+          image: postgres:18
+
+          ports:
+            - containerPort: 5432
+
+          envFrom:
+            - configMapRef:
+                name: {{ .Release.Name }}-postgres-config
+
+          volumeMounts:
+            # EBS - Postgres DB data
+            - name: postgres-data
+              mountPath: /var/lib/postgresql/data
+
+            # EFS - JTL storage (your requirement)
+            - name: jtl-storage
+              mountPath: /app/jtl-storage
+              subPath: backend/test_reports
+
+  volumes:
+    # EFS PVC (NOT in volumeClaimTemplates)
+    - name: jtl-storage
+      persistentVolumeClaim:
+        claimName: {{ .Release.Name }}-jtl-storage
+
   volumeClaimTemplates:
-  - metadata:
-      name: postgres-data
-      labels:
-        app: postgres
-      annotations:
-        "helm.sh/resource-policy": keep
-    spec:
-      accessModes:
-        - {{ .Values.postgres.persistence.accessModes | default "ReadWriteOnce" }}
-      storageClassName: {{ .Values.postgres.persistence.storageClassName | default "standard" }}
-      resources:
-        requests:
-          storage: {{ .Values.postgres.persistence.size | default "30Gi" }}
-  - metadata:
-      name: jtl-storage
-      labels:
-        app: postgres
-      annotations:
-        "helm.sh/resource-policy": keep
-    spec:
-      accessModes:
-        - {{ .Values.postgres.jtlPersistence.accessModes | default "ReadWriteOnce" }}
-      storageClassName: {{ .Values.postgres.jtlPersistence.storageClassName | default "standard" }}
-      resources:
-        requests:
-          storage: {{ .Values.postgres.jtlPersistence.size | default "5Gi" }}
+    # EBS ONLY for Postgres
+    - metadata:
+        name: postgres-data
+        labels:
+          app: {{ .Release.Name }}-postgres
+        annotations:
+          "helm.sh/resource-policy": keep
+
+      spec:
+        accessModes:
+          - {{ .Values.postgres.persistence.accessModes | default "ReadWriteOnce" }}
+
+        storageClassName: {{ .Values.postgres.persistence.storageClassName | default "gp3" }}
+
+        resources:
+          requests:
+            storage: {{ .Values.postgres.persistence.size | default "30Gi" }}

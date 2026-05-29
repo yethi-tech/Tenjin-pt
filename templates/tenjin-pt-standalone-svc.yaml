@@ -5,10 +5,11 @@ metadata:
   labels:
     app: tenjin-pt-standalone
 spec:
-  type: {{ .Values.tpt-standalone.service.type | default "ClusterIP" }}
+  type: {{ .Values.tenjinStandalone.service.type | default "ClusterIP" }}
   selector:
     app: tenjin-pt-standalone
   ports:
     - name: http
-      port: {{ .Values.tpt-standalone.service.port | default 80 }}
-      targetPort: 8080
+      protocol: TCP
+      port: {{ .Values.tenjinStandalone.service.port | default 80 }}
+      targetPort: {{ .Values.tenjinStandalone.service.targetPort | default 8080 }}
