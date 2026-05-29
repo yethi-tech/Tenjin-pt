@@ -11,8 +11,8 @@ db:
   type: postgres
 
 influxdb:
-  url: http://192.168.16.144:32024
-  token: joFf_aTXvkLXd6XsAbzEooVEIQ2JgMfDJ_ZUnEpNmJhNzOHflB49iQCcsa6FIgmvAtKQqQKlUp2p89DbqlGIjg==
+  url: <influxdb_url>
+  token: <influxdb_token>
   org: Yethi
   bucket: jmeter
 
@@ -39,11 +39,11 @@ ptService:
     targetPort: 8080
 
 litmus:
-  serviceUrl: http://192.168.16.144:32298
-  serviceToken: eyJhbGciOiJIUzUxMiIsInR5cCI6IkpXVCJ9....
+  serviceUrl: http://<litmus-ip>:<litmus-port>
+  serviceToken: <litmus-token>
 
 tenjinStandalone:
-  baseUrl: https://192.168.16.144
+  baseUrl: <tenjin-standalone-url>
   mailHost: smtp.office365.com
   mailPort: 587
   mailUsername: ""
