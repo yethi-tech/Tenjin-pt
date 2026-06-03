@@ -31,23 +31,22 @@ spec:
                 name: {{ .Release.Name }}-postgres-config
 
           volumeMounts:
-            # EBS - Postgres DB data
+            # PostgreSQL data (EBS)
             - name: postgres-data
               mountPath: /var/lib/postgresql/data
 
-            # EFS - JTL storage (your requirement)
+            # JTL storage (EFS PVC)
             - name: jtl-storage
               mountPath: /app/jtl-storage
               subPath: backend/test_reports
 
-  volumes:
-    # EFS PVC (NOT in volumeClaimTemplates)
-    - name: jtl-storage
-      persistentVolumeClaim:
-        claimName: {{ .Release.Name }}-jtl-storage
+      volumes:
+        # EFS PVC (must already exist)
+        - name: jtl-storage
+          persistentVolumeClaim:
+            claimName: {{ .Release.Name }}-jtl-storage
 
   volumeClaimTemplates:
-    # EBS ONLY for Postgres
     - metadata:
         name: postgres-data
         labels:
