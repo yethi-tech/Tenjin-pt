@@ -57,10 +57,10 @@ spec:
 
       spec:
         accessModes:
-          - {{ .Values.postgres.persistence.accessModes | default "ReadWriteOnce" }}
+          - {{ .Values.db.accessModes | default "ReadWriteOnce" }}
 
-        storageClassName: {{ .Values.postgres.persistence.storageClassName | default "gp3" }}
+        storageClassName: {{ .Values.db.storageClassName | default "gp3" }}
 
         resources:
           requests:
-            storage: {{ .Values.postgres.persistence.size | default "30Gi" }}
+            storage: {{ .Values.db.size | default "30Gi" }}

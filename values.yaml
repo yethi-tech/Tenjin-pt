@@ -9,6 +9,9 @@ db:
   password: postgres
   database: tenjin
   type: postgres
+  accessMode: ReadWriteOnce
+  storageClassName: gp3
+  size: 20Gi
 
 influxdb:
   url: <influxdb_url>
