@@ -1,0 +1,79 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ .Release.Name }}-tenjin-pt-service
+  labels:
+    app: {{ .Release.Name }}-tenjin-pt-service
+
+spec:
+  replicas: 1
+
+  selector:
+    matchLabels:
+      app: {{ .Release.Name }}-tenjin-pt-service
+
+  template:
+    metadata:
+      labels:
+        app: {{ .Release.Name }}-tenjin-pt-service
+
+    spec:
+      initContainers:
+        - name: wait-for-postgres
+          image: busybox
+          command:
+            - /bin/sh
+            - -c
+            - |
+              until nc -zv {{ .Release.Name }}-postgres 5432; do
+                echo "Waiting for postgres to be available..."
+                sleep 5
+              done
+
+      containers:
+        - name: tenjin-pt-service
+          image: "{{ .Values.ptService.image | default "yethitech/tenjin-pt-service:2.2.0" }}"
+
+          ports:
+            - containerPort: 8080
+
+          envFrom:
+            - configMapRef:
+                name: {{ .Release.Name }}-tenjin-pt-service-config
+
+          volumeMounts:
+            - name: pt-storage
+              mountPath: /root
+              subPath: backend
+
+            - name: pt-storage
+              mountPath: /root/.kube/config
+              subPath: backend/admin.conf
+
+            - name: pt-storage
+              mountPath: /usr/local/bin/kubectl
+              subPath: backend/kubectl
+
+      volumes:
+        - name: pt-storage
+          persistentVolumeClaim:
+            claimName: {{ .Release.Name }}-tenjin-shared-pvc
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: {{ .Release.Name }}-tenjin-shared-pvc
+  labels:
+    app: {{ .Release.Name }}-tenjin-shared
+  annotations:
+    "helm.sh/resource-policy": "keep"
+
+spec:
+  accessModes:
+    - ReadWriteMany
+
+  storageClassName: {{ .Values.ptService.persistence.storageClassName | default "efs-sc" }}
+
+  resources:
+    requests:
+      storage: {{ .Values.ptService.persistence.size | default "20Gi" }}

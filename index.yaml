@@ -3,12 +3,12 @@ entries:
   tenjin-pt:
   - apiVersion: v2
     appVersion: 1.16.0
-    created: "2026-06-03T14:47:02.401423+05:30"
+    created: "2026-06-03T14:56:54.6401575+05:30"
     description: A Helm chart for Kubernetes
-    digest: f21ca480433efcb27642defa64369fdc9d5f62bbd2fb60c0ae5388fa0cae19bd
+    digest: 25457d3ad6afcac3bedd4cf51e6bc1933c8184af4b9836ed28f2ee9fd66b15c5
     name: tenjin-pt
     type: application
     urls:
     - https://yethi-tech.github.io/Tenjin-pt/tenjin-pt-2.2.0.tgz
     version: 2.2.0
-generated: "2026-06-03T14:47:02.3981746+05:30"
+generated: "2026-06-03T14:56:54.6374983+05:30"
