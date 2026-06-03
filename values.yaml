@@ -4,7 +4,6 @@ db:
     size: 5Gi
   POSTGRES_DB: tenjin
   driver: org.postgresql.Driver
-  url: jdbc:postgresql://tenjin_db:5432/${POSTGRES_DB}
   username: postgres
   password: postgres
   database: tenjin
