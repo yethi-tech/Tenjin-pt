@@ -16,7 +16,8 @@ spec:
     metadata:
       labels:
         app: {{ .Release.Name }}-tenjin-pt-service
-
+    spec:
+      serviceAccountName: {{ .Release.Name }}-pt-service-sa
     spec:
       initContainers:
         - name: wait-for-postgres
@@ -46,7 +47,7 @@ spec:
               mountPath: /root
 
             - name: pt-storage
-              mountPath: /usr/local/bin/kubectl
+              mountPath: /usr/local/bin
 
       volumes:
         - name: pt-storage

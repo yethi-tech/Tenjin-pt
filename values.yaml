@@ -42,7 +42,7 @@ litmus:
   serviceToken: <litmus-token>
 
 tenjinStandalone:
-  image: yethitech/tenjin-standalone:2.2.0
+  image: yethitech/tenjin-pt-standalone:2.2.0
   baseUrl: <tenjin-standalone-url>
   mailHost: smtp.office365.com
   mailPort: 587
