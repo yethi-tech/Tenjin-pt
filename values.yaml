@@ -1,7 +1,4 @@
 db:
-  jtlPersistence:
-    storageClassName: efs-sc
-    size: 5Gi
   POSTGRES_DB: tenjin
   driver: org.postgresql.Driver
   username: postgres
@@ -34,7 +31,7 @@ ptService:
   cronJob: tenjinpt-prod-tenjin-pulse-master
   executionJob: exec-tenjinpt-prod-master-job
   jtlPath: /app/jtl-storage/10202/results.jtl
-
+  masterPvcName: <release-name>-tenjin-shared-pvc>
   service:
     type: ClusterIP
     port: 8080
@@ -56,7 +53,6 @@ tenjinStandalone:
   cookieHttp: false
   cookieSecure: false
   cookieSite: strict
-  ptServiceUrl: http://tpt-service:8080/api
 
   service:
     type: ClusterIP

@@ -33,18 +33,16 @@ spec:
           volumeMounts:
             # PostgreSQL data (EBS)
             - name: postgres-data
-              mountPath: /var/lib/postgresql/data
-
+              mountPath: /var/lib/postgresql
             # JTL storage (EFS PVC)
             - name: jtl-storage
-              mountPath: /app/jtl-storage
-              subPath: backend/test_reports
+              mountPath: /root/test_reports
 
       volumes:
         # EFS PVC (must already exist)
         - name: jtl-storage
           persistentVolumeClaim:
-            claimName: {{ .Release.Name }}-jtl-storage
+            claimName: {{ .Release.Name }}-tenjin-shared-pvc
 
   volumeClaimTemplates:
     - metadata:

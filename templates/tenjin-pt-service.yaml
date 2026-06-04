@@ -44,20 +44,17 @@ spec:
           volumeMounts:
             - name: pt-storage
               mountPath: /root
-              subPath: backend
-
-            - name: pt-storage
-              mountPath: /root/.kube/config
-              subPath: backend/admin.conf
 
             - name: pt-storage
               mountPath: /usr/local/bin/kubectl
-              subPath: backend/kubectl
 
       volumes:
         - name: pt-storage
           persistentVolumeClaim:
             claimName: {{ .Release.Name }}-tenjin-shared-pvc
+        - name: jmeter-data-volume
+          persistentVolumeClaim:
+            claimName: {{ .Values.ptService.masterPvcName }}
 ---
 apiVersion: v1
 kind: PersistentVolumeClaim

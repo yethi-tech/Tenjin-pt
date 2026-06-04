@@ -8,7 +8,7 @@ metadata:
 data:
   # Database
   SPRING_DATASOURCE_DRIVER_CLASS_NAME: "{{ .Values.db.driver }}"
-  SPRING_DATASOURCE_URL: jdbc:postgresql://{{ .Release.Name }}-postgres:5432/${POSTGRES_DB}
+  SPRING_DATASOURCE_URL: "jdbc:postgresql://{{ .Release.Name }}-postgres:5432/{{ .Values.db.database }}"
   SPRING_DATASOURCE_USERNAME: "{{ .Values.db.username }}"
   SPRING_DATASOURCE_PASSWORD: "{{ .Values.db.password }}"
 
