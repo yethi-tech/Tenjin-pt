@@ -32,4 +32,4 @@ data:
   TENJIN_COOKIE_SECURE: "{{ .Values.tenjinStandalone.cookieSecure }}"
   TENJIN_COOKIE_SITE: "{{ .Values.tenjinStandalone.cookieSite }}"
 
-  TENJIN_PT_SERVICE_URL: http://.Release.Name }}-tenjin-pt-service:8080/api
+  TENJIN_PT_SERVICE_URL: "http://{{ .Release.Name }}-tenjin-pt-service:8080/api"
