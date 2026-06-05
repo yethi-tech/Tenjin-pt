@@ -16,9 +16,10 @@ spec:
     metadata:
       labels:
         app: {{ .Release.Name }}-tenjin-pt-service
+
     spec:
       serviceAccountName: {{ .Release.Name }}-pt-service-sa
-    spec:
+
       initContainers:
         - name: wait-for-postgres
           image: busybox
@@ -34,7 +35,6 @@ spec:
       containers:
         - name: tenjin-pt-service
           image: "{{ .Values.ptService.image | default "yethitech/tenjin-pt-service:2.2.0" }}"
-
           ports:
             - containerPort: 8080
 
@@ -45,7 +45,6 @@ spec:
           volumeMounts:
             - name: pt-storage
               mountPath: /root
-
             - name: pt-storage
               mountPath: /usr/local/bin
 
@@ -53,6 +52,7 @@ spec:
         - name: pt-storage
           persistentVolumeClaim:
             claimName: {{ .Release.Name }}-tenjin-shared-pvc
+
         - name: jmeter-data-volume
           persistentVolumeClaim:
             claimName: {{ .Values.ptService.masterPvcName }}
@@ -64,7 +64,7 @@ metadata:
   labels:
     app: {{ .Release.Name }}-tenjin-shared
   annotations:
-    "helm.sh/resource-policy": "keep"
+    helm.sh/resource-policy: "keep"
 
 spec:
   accessModes:
