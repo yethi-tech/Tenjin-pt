@@ -45,9 +45,8 @@ spec:
           volumeMounts:
             - name: pt-storage
               mountPath: /root
-            - name: pt-storage
-              mountPath: /usr/local/bin
-
+            - name: jmeter-data-volume
+              mountPath: /root/tenjinpt-master-pv
       volumes:
         - name: pt-storage
           persistentVolumeClaim:

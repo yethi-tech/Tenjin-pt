@@ -37,6 +37,7 @@ spec:
             # JTL storage (EFS PVC)
             - name: jtl-storage
               mountPath: /root/test_reports
+              subPath: test_reports
 
       volumes:
         # EFS PVC (must already exist)
