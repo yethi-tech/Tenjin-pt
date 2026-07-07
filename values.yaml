@@ -16,7 +16,7 @@ influxdb:
   bucket: jmeter
 
 ptService:
-  image: yethitech/tenjin-pt-service:2.2.0
+  image: yethitech/tenjin-pt-service:2.3.0
 
   persistence:
     size: 20Gi
@@ -42,16 +42,16 @@ litmus:
   serviceToken: <litmus-token>
 
 tenjinStandalone:
-  image: yethitech/tenjin-pt-standalone:2.2.0
+  image: yethitech/tenjin-pt-standalone:2.3.0
   baseUrl: <tenjin-standalone-url>
   mailHost: smtp.office365.com
   mailPort: 587
   mailUsername: ""
   mailPassword: "1C3cr$%cr3am"
-  chaosTesting: true
+  chaosTesting: "true"
   timezone: Asia/Kolkata
-  cookieHttp: false
-  cookieSecure: false
+  cookieHttp: "false"
+  cookieSecure: "false"
   cookieSite: strict
 
   service:

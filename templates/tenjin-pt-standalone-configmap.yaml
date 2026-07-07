@@ -33,3 +33,10 @@ data:
   TENJIN_COOKIE_SITE: "{{ .Values.tenjinStandalone.cookieSite }}"
 
   TENJIN_PT_SERVICE_URL: "http://{{ .Release.Name }}-tenjin-pt-service:8080/api"
+  TENJIN_OAUTH2_KEYSTORE_PATH: "/etc/ssl/certs/cert.p12"
+  TENJIN_OAUTH2_KEYSTORE_PASSWORD: "Yethi123"
+  TENJIN_OAUTH2_KEY_ALIAS: "oauth-server"
+  TENJIN_OAUTH2_REDIRECT_URIS: "HOSTIP/callback"
+  TENJIN_FRONTEND_URL: "HOSTIP"
+  TENJIN_CORS_ALLOWED_ORIGINS: "HOSTIP"
+  TENJIN_OAUTH2_INTERNAL_TOKEN_URL: "HOSTIP/oauth2/token"

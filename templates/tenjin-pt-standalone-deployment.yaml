@@ -28,7 +28,7 @@ spec:
 
       containers:
         - name: tenjin-pt-standalone
-          image: "{{ .Values.tenjinStandalone.image | default "yethitech/tenjin-pt-standalone:2.2.0" }}"
+          image: "{{ .Values.tenjinStandalone.image | default "yethitech/tenjin-pt-standalone:2.3.0" }}"
           ports:
             - containerPort: 8080
 

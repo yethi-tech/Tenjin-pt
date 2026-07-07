@@ -34,7 +34,7 @@ spec:
 
       containers:
         - name: tenjin-pt-service
-          image: "{{ .Values.ptService.image | default "yethitech/tenjin-pt-service:2.2.0" }}"
+          image: "{{ .Values.ptService.image | default "yethitech/tenjin-pt-service:2.3.0" }}"
           ports:
             - containerPort: 8080
 
